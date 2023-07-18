@@ -7,7 +7,7 @@ import MusicCard from './MusicCard';
 
 function Album() {
   const [loadingCheck, setLoadingCheck] = useState<boolean>(true);
-  const [musicList, setMusicList] = useState<[]>([]);
+  const [musicList, setMusicList] = useState<[AlbumType, ...SongType[]] | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -17,14 +17,16 @@ function Album() {
       setLoadingCheck(false);
     }
 
-    fetchMusicList();
-  }, [location.pathname]);
+    if (musicList === null) {
+      fetchMusicList();
+    }
+  }, [location.pathname, musicList]);
 
   if (loadingCheck) {
     return <Loading />;
   }
 
-  if (musicList.length === 0) {
+  if (!musicList || musicList.length === 0) {
     return <h2>Nenhum álbum foi encontrado</h2>;
   }
 
@@ -37,7 +39,11 @@ function Album() {
       <h2 data-testid="album-name">{albumInfo.collectionName}</h2>
       <div>
         {musics.map((music) => (
-          <MusicCard key={ music.trackId } music={ music } />
+          <MusicCard
+            key={ music.trackId }
+            trackName={ music.trackName }
+            previewUrl={ music.previewUrl }
+          />
         ))}
       </div>
     </>

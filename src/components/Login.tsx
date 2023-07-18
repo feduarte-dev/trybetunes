@@ -11,7 +11,7 @@ function Login() {
 
   function handleInput(e:React.ChangeEvent<HTMLInputElement>):void {
     setInputValue(e.target.value);
-    setButtonCheck(e.target.value.length < 3); // Pq ta liberando com 3 char e nao 4? visto que eu nao coloquei < =
+    setButtonCheck(e.target.value.length < 3);
   }
 
   async function handleButton() {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Loading from './Loading';
@@ -10,6 +10,7 @@ function Search() {
   const [loadingCheck, setLoadingCheck] = useState<boolean>(false);
   const [albumList, setAlbumList] = useState<AlbumType[]>([]);
   const [buttonPress, setButtonPress] = useState<boolean>(false);
+  const [artist, setArtist] = useState<string>('');
 
   function handleInput(e:React.ChangeEvent<HTMLInputElement>):void {
     setInputValue(e.target.value);
@@ -19,15 +20,11 @@ function Search() {
   async function handleButton() {
     setLoadingCheck(true);
     setAlbumList(await searchAlbumsAPI(inputValue));
+    setArtist(inputValue);
     setInputValue('');
     setLoadingCheck(false);
     setButtonPress(true);
   }
-
-  useEffect(() => {
-    // setAlbumList(albumList);
-    console.log(albumList);
-  }, [albumList]);
 
   if (loadingCheck) {
     return <Loading />;
@@ -50,11 +47,11 @@ function Search() {
       </button>
       {albumList.length > 0 && (
         <div>
-          <h1>{`Resultado de álbuns de: ${albumList[0].artistName}`}</h1>
+          <h1>{`Resultado de álbuns de: ${artist}`}</h1>
           {albumList.map((album) => (
             <NavLink
               key={ album.collectionId }
-              to={ `/album/${album.collectionId}` } // Vou ter problema com isso?
+              to={ `/album/${album.collectionId}` }
               data-testid={ `link-to-album-${album.collectionId}` }
             >
               {album.collectionName}
