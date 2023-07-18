@@ -5,18 +5,18 @@ import Loading from './Loading';
 
 function Login() {
   const [buttonCheck, setButtonCheck] = useState<boolean>(true);
-  const [inputCheck, setInputCheck] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [loadingCheck, setLoadingCheck] = useState<boolean>(false);
   const navigate = useNavigate();
 
   function handdleInput(e:React.ChangeEvent<HTMLInputElement>):void {
-    setInputCheck(e.target.value);
+    setInputValue(e.target.value);
     setButtonCheck(e.target.value.length < 3); // Pq ta liberando com 3 char e nao 4? visto que eu nao coloquei < =
   }
 
   async function handdleButton() {
     setLoadingCheck(true);
-    await createUser({ name: inputCheck });
+    await createUser({ name: inputValue });
     setLoadingCheck(false);
     navigate('/search');
   }
@@ -30,7 +30,7 @@ function Login() {
       <input
         type="text"
         data-testid="login-name-input"
-        value={ inputCheck }
+        value={ inputValue }
         onChange={ handdleInput }
       />
       <button
@@ -39,7 +39,6 @@ function Login() {
         onClick={ handdleButton }
       >
         Entrar
-
       </button>
     </>
   );
