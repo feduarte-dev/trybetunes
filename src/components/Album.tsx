@@ -36,7 +36,6 @@ function Album() {
       <h1 data-testid="artist-name">{albumInfo.artistName}</h1>
       <h2 data-testid="album-name">{albumInfo.collectionName}</h2>
       <div>
-        {/* Render your music cards or any other components using the musics array */}
         {musics.map((music) => (
           <MusicCard key={ music.trackId } music={ music } />
         ))}
