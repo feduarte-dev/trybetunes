@@ -9,12 +9,12 @@ function Login() {
   const [loadingCheck, setLoadingCheck] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  function handdleInput(e:React.ChangeEvent<HTMLInputElement>):void {
+  function handleInput(e:React.ChangeEvent<HTMLInputElement>):void {
     setInputValue(e.target.value);
     setButtonCheck(e.target.value.length < 3); // Pq ta liberando com 3 char e nao 4? visto que eu nao coloquei < =
   }
 
-  async function handdleButton() {
+  async function handleButton() {
     setLoadingCheck(true);
     await createUser({ name: inputValue });
     setLoadingCheck(false);
@@ -31,12 +31,12 @@ function Login() {
         type="text"
         data-testid="login-name-input"
         value={ inputValue }
-        onChange={ handdleInput }
+        onChange={ handleInput }
       />
       <button
         data-testid="login-submit-button"
         disabled={ buttonCheck }
-        onClick={ handdleButton }
+        onClick={ handleButton }
       >
         Entrar
       </button>

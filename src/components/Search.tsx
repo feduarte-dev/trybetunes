@@ -11,12 +11,12 @@ function Search() {
   const [albumList, setAlbumList] = useState<AlbumType[]>([]);
   const [buttonPress, setButtonPress] = useState<boolean>(false);
 
-  function handdleInput(e:React.ChangeEvent<HTMLInputElement>):void {
+  function handleInput(e:React.ChangeEvent<HTMLInputElement>):void {
     setInputValue(e.target.value);
     setButtonCheck(e.target.value.length < 2);
   }
 
-  async function handdleButton() {
+  async function handleButton() {
     setLoadingCheck(true);
     setAlbumList(await searchAlbumsAPI(inputValue));
     setInputValue('');
@@ -24,10 +24,10 @@ function Search() {
     setButtonPress(true);
   }
 
-  // useEffect(() => {
-  //   setAlbumList(albumList);
-  //   console.log(albumList);
-  // }, [albumList]);
+  useEffect(() => {
+    // setAlbumList(albumList);
+    console.log(albumList);
+  }, [albumList]);
 
   if (loadingCheck) {
     return <Loading />;
@@ -39,12 +39,12 @@ function Search() {
         type="text"
         data-testid="search-artist-input"
         value={ inputValue }
-        onChange={ handdleInput }
+        onChange={ handleInput }
       />
       <button
         data-testid="search-artist-button"
         disabled={ buttonCheck }
-        onClick={ handdleButton }
+        onClick={ handleButton }
       >
         Pesquisar
       </button>
