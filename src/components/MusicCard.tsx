@@ -4,7 +4,7 @@ import checked_heart from '../images/checked_heart.png';
 import empty_heart from '../images/empty_heart.png';
 import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
-
+// to busccando informacoes do localstorage e nao da funcao
 function MusicCard({ trackName, previewUrl, trackId }: SongType) {
   const [favoriteTracks, setFavoriteTracks] = useState<SongType[]>(() => {
     const storedFavoriteSongs = localStorage.getItem('favorite_songs');
