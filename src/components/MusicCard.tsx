@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SongType } from '../types';
 import checked_heart from '../images/checked_heart.png';
 import empty_heart from '../images/empty_heart.png';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 
 function MusicCard({ trackName, previewUrl, trackId }:SongType) {
   const [checkbox, setCheckbox] = useState<boolean>(false);
@@ -9,6 +10,21 @@ function MusicCard({ trackName, previewUrl, trackId }:SongType) {
   function handleChange() {
     return checkbox ? setCheckbox(false) : setCheckbox(true);
   }
+  useEffect(() => {
+    async function fetchFavorites() {
+      try {
+        if (checkbox) {
+          await addSong({ trackName, previewUrl, trackId });
+        } else if (!checkbox) {
+          await removeSong({ trackName, previewUrl, trackId });
+        }
+      } catch (error) {
+        console.error('Error fetching song:', error);
+      }
+    }
+    fetchFavorites();
+  }, [checkbox, previewUrl, trackId, trackName]);
+
   return (
     <>
       <p>{trackName}</p>
@@ -18,7 +34,6 @@ function MusicCard({ trackName, previewUrl, trackId }:SongType) {
         {' '}
         {' '}
         <code>audio</code>
-        .
       </audio>
       <label htmlFor={ trackName } data-testid={ `checkbox-music-${trackId}` }>
         <input
