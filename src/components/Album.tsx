@@ -31,7 +31,6 @@ function Album() {
   }
 
   const [albumInfo, ...musics] = musicList;
-  console.log(musicList);
 
   return (
     <>
@@ -43,6 +42,7 @@ function Album() {
             key={ music.trackId }
             trackName={ music.trackName }
             previewUrl={ music.previewUrl }
+            trackId={ music.trackId }
           />
         ))}
       </div>
