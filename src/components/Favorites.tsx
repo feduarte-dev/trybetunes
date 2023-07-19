@@ -7,21 +7,19 @@ import MusicCard from './MusicCard';
 function Favorites() {
   const [loadingCheck, setLoadingCheck] = useState<boolean>(false);
   const [favoriteList, setFavoriteList] = useState<SongType[]>([]);
-  const [selectedFavorites, setSelectedFavorites] = useState<SongType[]>([]);
 
   useEffect(() => {
     async function fetchFavoriteList() {
       setLoadingCheck(true);
       const allFavorites = await getFavoriteSongs();
       setFavoriteList(allFavorites);
-      setSelectedFavorites(allFavorites);
       setLoadingCheck(false);
     }
     fetchFavoriteList();
   }, []);
 
   function handleCheckboxChange(trackId: number) {
-    setSelectedFavorites((prevFavorites) => prevFavorites
+    setFavoriteList((prevFavorites) => prevFavorites
       .filter((song) => song.trackId !== trackId));
   }
 
@@ -31,7 +29,7 @@ function Favorites() {
 
   return (
     <div>
-      {selectedFavorites.map((music) => (
+      {favoriteList.map((music) => (
         <MusicCard
           key={ music.trackId }
           trackName={ music.trackName }
