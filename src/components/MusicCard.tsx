@@ -4,18 +4,21 @@ import checked_heart from '../images/checked_heart.png';
 import empty_heart from '../images/empty_heart.png';
 import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
-// to busccando informacoes do localstorage e nao da funcao
-function MusicCard({ trackName, previewUrl, trackId }: SongType) {
+
+function MusicCard({ trackName, previewUrl, trackId, onCheckboxChange }: SongType
+& { onCheckboxChange: () => void }) {
   const [favoriteTracks, setFavoriteTracks] = useState<SongType[]>(() => {
     const storedFavoriteSongs = localStorage.getItem('favorite_songs');
     return storedFavoriteSongs ? JSON.parse(storedFavoriteSongs) : [];
   });
-  const [checkbox, setCheckbox] = useState<boolean>(favoriteTracks
-    .some((song) => song.trackName === trackName));
+  const [checkbox, setCheckbox] = useState<boolean>(
+    favoriteTracks.some((song) => song.trackName === trackName),
+  );
   const [loadingCheck, setLoadingCheck] = useState<boolean>(false);
 
   function handleChange() {
     setCheckbox((prevState) => !prevState);
+    onCheckboxChange();
   }
 
   useEffect(() => {
